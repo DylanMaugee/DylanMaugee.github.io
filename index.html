@@ -79,8 +79,7 @@
         // Create the video/audio stream
         function handleVideo(stream) {
             getMedias();
-            window.stream = stream;
-            myCam.src = stream;
+            myCam.src = window.URL.createObjectURL(stream);
         }
 
         function videoError(e) {
