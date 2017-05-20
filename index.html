@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+    <label for="audioSource">Audio: </label>
+    <select id="audioSource">
+        </select>
+    <label for="videoSource">Vidéo: </label>
+    <select id="videoSource">
+        </select>
+
+
+    <video autoplay="true" id="webcam"></video>
+
+
+    <script type="text/javascript">
+        var audioInputSelect = document.querySelector('select#audioSource');
+        var videoSelect = document.querySelector('select#videoSource');
+        var myCam = document.querySelector('#webcam')
+        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
+
+        function getMedias() {
+            navigator.mediaDevices.enumerateDevices().then(function(devices) {
+                    devices.forEach(function(device) {
+                        //console.log(device.kind + ": " + device.label +" id = " + device.deviceId);
+                        var option = document.createElement('option');
+                        option.value = device.deviceId;
+                        if (device.kind === 'audioinput') {
+                            option.text = device.label ||
+                                'microphone ' + (audioInputSelect.length + 1);
+                            audioInputSelect.appendChild(option);
+                        } else if (device.kind === 'videoinput') {
+                            option.text = device.label || 'camera ' + (videoSelect.length + 1);
+                            videoSelect.appendChild(option);
+                        } else {
+                            console.log('Error getting media of user ', device);
+                        }
+                    });
+                })
+                .catch(function(err) {
+                    console.log(err.name + ": " + err.message);
+                });
+        }
+
+        function startCam() {
+            //Get user medias info
+            if (navigator.getUserMedia) {
+                navigator.getUserMedia({
+                    video: true,
+                    audio: true
+                }, handleVideo, videoError);
+            }
+        }
+
+        function changeSources() {
+            var audioSrc = audioInputSelect.value;
+            var videoSrc = videoSelect.value;
+            var constraints = {
+                audio: {
+                    deviceId: audioSource ? {
+                        exact: audioSource
+                    } : undefined
+                },
+                video: {
+                    deviceId: videoSource ? {
+                        exact: videoSource
+                    } : undefined
+                }
+            };
+            console.log(constraints);
+            navigator.mediaDevices.getUserMedia(constraints, handleVideo, videoError);
+        }
+
+        // Create the video/audio stream
+        function handleVideo(stream) {
+            getMedias();
+            myCam.src = window.URL.createObjectURL(stream);
+        }
+
+        function videoError(e) {
+            console.log('Error with video')
+        }
+
+        audioInputSelect.onchange = changeSources;
+        videoSelect.onchange = changeSources;
+
+        startCam();
+
+    </script>
+</body>
+
+</html>
