@@ -9,24 +9,24 @@ window.onload = function () {
     // Get the devices infos to display on page
     function getMedias() {
         navigator.mediaDevices.enumerateDevices().then(function (devices) {
-            devices.forEach(function (device) {
-                var option = document.createElement('option');
-                option.value = device.deviceId;
-                if (device.kind === 'audioinput') {
-                    option.text = device.label ||
-                        'microphone ' + (audioInputSelect.length + 1);
-                    audioInputSelect.appendChild(option);
-                } else if (device.kind === 'videoinput') {
-                    option.text = device.label || 'camera ' + (videoSelect.length + 1);
-                    videoSelect.appendChild(option);
-                } else {
-                    console.log('Error getting media of user ', device);
-                }
-            });
-        })
+                devices.forEach(function (device) {
+                    var option = document.createElement('option');
+                    option.value = device.deviceId;
+                    if (device.kind === 'audioinput') {
+                        option.text = device.label ||
+                            'microphone ' + (audioInputSelect.length + 1);
+                        audioInputSelect.appendChild(option);
+                    } else if (device.kind === 'videoinput') {
+                        option.text = device.label || 'camera ' + (videoSelect.length + 1);
+                        videoSelect.appendChild(option);
+                    } else {
+                        console.log('Error getting media of user ', device);
+                    }
+                });
+            })
             .catch(function (err) {
-            console.log(err.name + ": " + err.message);
-        });
+                console.log(err.name + ": " + err.message);
+            });
     }
 
     function startCam() {
@@ -61,9 +61,11 @@ window.onload = function () {
                 } : undefined
             }
         };
-        if (navigator.getUserMedia) {
-            navigator.mediaDevices.getUserMedia(constraints, handleVideo, videoError);
-        }
+//        navigator.mediaDevices.getUserMedia(constraints, handleVideo, videoError);
+        navigator.getUserMedia({
+                video: true,
+                audio: true
+            }, handleVideo, videoError);
     }
 
     // Create the video/audio stream
