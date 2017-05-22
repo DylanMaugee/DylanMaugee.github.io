@@ -12,6 +12,7 @@ window.onload = function () {
                 devices.forEach(function (device) {
                     var option = document.createElement('option');
                     option.value = device.deviceId;
+                    console.log(device);
                     if (device.kind === 'audioinput') {
                         option.text = device.label ||
                             'microphone ' + (audioInputSelect.length + 1);
