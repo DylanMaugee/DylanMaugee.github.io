@@ -112,9 +112,9 @@
             // Create the video/audio stream
             function handleVideo(stream) {
                 getMedias();
-                console.log(stream);
                 window.stream = stream;
                 myCam.srcObject = stream;
+                return navigator.mediaDevices.enumerateDevices();
             }
 
             function videoError(e) {
