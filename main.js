@@ -61,14 +61,7 @@ window.onload = function () {
                 } : undefined
             }
         };
-//        navigator.mediaDevices.getUserMedia(constraints, handleVideo, videoError);
-        navigator.getUserMedia({
-                video: {
-    width: { min: 1280 },
-    height: { min: 720 }
-  },
-                audio: true
-            }, handleVideo, videoError);
+        navigator.mediaDevices.getUserMedia(constraints, handleVideo, videoError);
     }
 
     // Create the video/audio stream
