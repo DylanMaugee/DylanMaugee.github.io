@@ -9,10 +9,10 @@ window.onload = function () {
     // Get the devices infos to display on page
     function getMedias() {
         navigator.mediaDevices.enumerateDevices().then(function (devices) {
+            console.log(devices);
                 devices.forEach(function (device) {
                     var option = document.createElement('option');
                     option.value = device.deviceId;
-                    console.log(device);
                     if (device.kind === 'audioinput') {
                         option.text = device.label ||
                             'microphone ' + (audioInputSelect.length + 1);
