@@ -1,7 +1,8 @@
 var audioInputSelect = document.querySelector('select#audioSource');
 var videoSelect = document.querySelector('select#videoSource');
-var myCam = document.querySelector('#webcam')
-var test;
+var audioOutputSelect = document.querySelector('select#audioOutput');
+var myCam = document.querySelector('#webcam');
+
 navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
 
 // Get the devices infos to display on page
