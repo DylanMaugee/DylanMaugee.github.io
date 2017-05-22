@@ -16,10 +16,6 @@ window.onload = function () {
                     option.text = device.label ||
                         'microphone ' + (audioInputSelect.length + 1);
                     audioInputSelect.appendChild(option);
-                } else if (deviceInfo.kind === 'audiooutput') {
-                    option.text = deviceInfo.label || 'speaker ' +
-                        (audioOutputSelect.length + 1);
-                    audioOutputSelect.appendChild(option);
                 } else if (device.kind === 'videoinput') {
                     option.text = device.label || 'camera ' + (videoSelect.length + 1);
                     videoSelect.appendChild(option);
