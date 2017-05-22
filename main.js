@@ -72,7 +72,7 @@ function videoError(e) {
     console.log('Error with video')
 }
 
+startCam();
+
 audioInputSelect.onchange = changeSources;
 videoSelect.onchange = changeSources;
-
-startCam();
