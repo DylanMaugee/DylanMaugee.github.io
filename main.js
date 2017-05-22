@@ -3,13 +3,13 @@ window.onload = function () {
     var videoSelect = document.querySelector('select#videoSource');
     var audioOutputSelect = document.querySelector('select#audioOutput');
     var myCam = document.querySelector('#webcam');
-    
+
     navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
 
     // Get the devices infos to display on page
     function getMedias() {
-        navigator.mediaDevices.enumerateDevices().then(function(devices) {
-            devices.forEach(function(device) {
+        navigator.mediaDevices.enumerateDevices().then(function (devices) {
+            devices.forEach(function (device) {
                 var option = document.createElement('option');
                 option.value = device.deviceId;
                 if (device.kind === 'audioinput') {
@@ -24,7 +24,7 @@ window.onload = function () {
                 }
             });
         })
-            .catch(function(err) {
+            .catch(function (err) {
             console.log(err.name + ": " + err.message);
         });
     }
@@ -42,10 +42,9 @@ window.onload = function () {
     function changeSources() {
 
         if (window.stream) {
-            window.stream.getTracks().forEach(function(track) {
+            window.stream.getTracks().forEach(function (track) {
                 track.stop();
             });
-            window.stream = null;
         }
 
         var audioSrc = audioInputSelect.value;
@@ -62,7 +61,9 @@ window.onload = function () {
                 } : undefined
             }
         };
-        navigator.mediaDevices.getUserMedia(constraints, handleVideo, videoError);
+        if (navigator.getUserMedia) {
+            navigator.mediaDevices.getUserMedia(constraints, handleVideo, videoError);
+        }
     }
 
     // Create the video/audio stream
