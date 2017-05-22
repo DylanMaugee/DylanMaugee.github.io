@@ -63,7 +63,10 @@ window.onload = function () {
         };
 //        navigator.mediaDevices.getUserMedia(constraints, handleVideo, videoError);
         navigator.getUserMedia({
-                video: true,
+                video: {
+    width: { min: 1280 },
+    height: { min: 720 }
+  },
                 audio: true
             }, handleVideo, videoError);
     }
