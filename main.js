@@ -45,6 +45,7 @@ window.onload = function () {
             window.stream.getTracks().forEach(function(track) {
                 track.stop();
             });
+            window.stream = null;
         }
 
         var audioSrc = audioInputSelect.value;
