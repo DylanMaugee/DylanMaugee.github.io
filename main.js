@@ -72,7 +72,6 @@ function videoError(e) {
     console.log('Error with video')
 }
 
-audioOutputSelect.onchange = changeAudioDestination;
 audioInputSelect.onchange = changeSources;
 videoSelect.onchange = changeSources;
 
