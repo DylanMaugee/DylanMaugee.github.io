@@ -1,49 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <head>
-        <meta charset="UTF-8">
-        <title>Document</title>
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
 
-    <body>
-        <label for="audioSource">Audio: </label>
-        <select id="audioSource"></select>
-
-        <label for="audioOutput">Sortie audio: </label>
-        <select id="audioOutput"></select>
-
-        <label for="videoSource">Vidéo: </label>
-        <select id="videoSource"></select>
+<body>
+    <label for="audioSource">Audio: </label>
+    <select id="audioSource">
+        </select>
+    <label for="videoSource">Vidéo: </label>
+    <select id="videoSource">
+        </select>
 
 
-        <video autoplay="true" id="webcam"></video>
+    <video autoplay="true" id="webcam"></video>
 
 
-        <script type="text/javascript">
-            var audioInputSelect = document.querySelector('select#audioSource');
-            var audioOutputSelect = document.querySelector('select#audioOutput');
-            var videoSelect = document.querySelector('select#videoSource');
-            var myCam = document.querySelector('#webcam')
-            var test;
-            navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
+    <script type="text/javascript">
+        var audioInputSelect = document.querySelector('select#audioSource');
+        var videoSelect = document.querySelector('select#videoSource');
+        var myCam = document.querySelector('#webcam')
+        var test;
+        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
 
-            // Get the devices infos to display on page
-            function getMedias() {
-                navigator.mediaDevices.enumerateDevices().then(function(devices) {
-                    console.log(devices);
+        // Get the devices infos to display on page
+        function getMedias() {
+            navigator.mediaDevices.enumerateDevices().then(function(devices) {
                     devices.forEach(function(device) {
-                        console.log(device);
                         var option = document.createElement('option');
                         option.value = device.deviceId;
                         if (device.kind === 'audioinput') {
                             option.text = device.label ||
                                 'microphone ' + (audioInputSelect.length + 1);
                             audioInputSelect.appendChild(option);
-                        } else if (deviceInfo.kind === 'audiooutput') {
-                            option.text = deviceInfo.label || 'speaker ' +
-                                (audioOutputSelect.length + 1);
-                            audioOutputSelect.appendChild(option);
                         } else if (device.kind === 'videoinput') {
                             option.text = device.label || 'camera ' + (videoSelect.length + 1);
                             videoSelect.appendChild(option);
@@ -52,84 +43,57 @@
                         }
                     });
                 })
-                    .catch(function(err) {
+                .catch(function(err) {
                     console.log(err.name + ": " + err.message);
                 });
-            }
+        }
 
-            function startCam() {
-                //Get user medias info
-                if (navigator.getUserMedia) {
-                    navigator.getUserMedia({
-                        video: true,
-                        audio: true
-                    }, handleVideo, videoError);
+        function startCam() {
+            //Get user medias info
+            if (navigator.getUserMedia) {
+                navigator.getUserMedia({
+                    video: true,
+                    audio: true
+                }, handleVideo, videoError);
+            }
+        }
+
+        function changeSources() {
+            var audioSrc = audioInputSelect.value;
+            var videoSrc = videoSelect.value;
+            var constraints = {
+                audio: {
+                    deviceId: audioSrc ? {
+                        exact: audioSrc
+                    } : undefined
+                },
+                video: {
+                    deviceId: videoSrc ? {
+                        exact: videoSrc
+                    } : undefined
                 }
-            }
+            };
+            navigator.mediaDevices.getUserMedia(constraints, handleVideo, videoError);
+        }
 
-            function changeAudioDestination() {
-                var audioDestination = audioOutputSelect.value;
-                attachSinkId(videoElement, audioDestination);
-            }
+        // Create the video/audio stream
+        function handleVideo(stream) {
+            getMedias();
+            console.log(stream);
+            window.stream = stream;
+            myCam.srcObject = stream;
+        }
 
-            function changeSources() {
-                var audioSrc = audioInputSelect.value;
-                var videoSrc = videoSelect.value;
-                var constraints = {
-                    audio: {
-                        deviceId: audioSrc ? {
-                            exact: audioSrc
-                        } : undefined
-                    },
-                    video: {
-                        deviceId: videoSrc ? {
-                            exact: videoSrc
-                        } : undefined
-                    }
-                };
-                navigator.mediaDevices.getUserMedia(constraints, handleVideo, videoError);
-            }
+        function videoError(e) {
+            console.log('Error with video')
+        }
 
-            function attachSinkId(element, sinkId) {
-                if (typeof element.sinkId !== 'undefined') {
-                    element.setSinkId(sinkId)
-                        .then(function() {
-                        console.log('Success, audio output device attached: ' + sinkId);
-                    })
-                        .catch(function(error) {
-                        var errorMessage = error;
-                        if (error.name === 'SecurityError') {
-                            errorMessage = 'You need to use HTTPS for selecting audio output ' +
-                                'device: ' + error;
-                        }
-                        console.error(errorMessage);
-                        // Jump back to first output device in the list as it's the default.
-                        audioOutputSelect.selectedIndex = 0;
-                    });
-                } else {
-                    console.warn('Browser does not support output device selection.');
-                }
-            }
+        audioInputSelect.onchange = changeSources;
+        videoSelect.onchange = changeSources;
 
-            // Create the video/audio stream
-            function handleVideo(stream) {
-                getMedias();
-                window.stream = stream;
-                myCam.srcObject = stream;
-                return navigator.mediaDevices.enumerateDevices();
-            }
+        startCam();
 
-            function videoError(e) {
-                console.log('Error with video')
-            }
-
-            audioOutputSelect.onchange = changeAudioDestination;
-            audioInputSelect.onchange = changeSources;
-            videoSelect.onchange = changeSources;
-
-            startCam();
-
-        </script>
-    </body>
+    </script>
+</body>
 
 </html>
