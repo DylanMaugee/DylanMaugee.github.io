@@ -40,6 +40,13 @@ window.onload = function () {
     }
 
     function changeSources() {
+
+        if (window.stream) {
+            window.stream.getTracks().forEach(function(track) {
+                track.stop();
+            });
+        }
+
         var audioSrc = audioInputSelect.value;
         var videoSrc = videoSelect.value;
         var constraints = {
