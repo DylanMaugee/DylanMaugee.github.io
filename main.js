@@ -8,7 +8,7 @@
 
 'use strict';
 
-var videoElement = document.querySelector('video');
+var videoElement = document.querySelector('#webcam');
 var audioInputSelect = document.querySelector('select#audioSource');
 var audioOutputSelect = document.querySelector('select#audioOutput');
 var videoSelect = document.querySelector('select#videoSource');
