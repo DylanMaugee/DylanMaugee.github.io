@@ -9,6 +9,7 @@ window.onload = function () {
     // Get the devices infos to display on page
     function getMedias() {
         navigator.mediaDevices.enumerateDevices().then(function (devices) {
+            console.log(devices);
                 devices.forEach(function (device) {
                     var option = document.createElement('option');
                     option.value = device.deviceId;
