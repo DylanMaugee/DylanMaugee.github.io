@@ -33,6 +33,13 @@ window.onload = function () {
             } else {
                 console.log('Some other kind of source/device: ', deviceInfo);
             }
+            selectors.forEach(function(select, selectorIndex) {
+                if (Array.prototype.slice.call(select.childNodes).some(function(n) {
+                    return n.value === values[selectorIndex];
+                })) {
+                    select.value = values[selectorIndex];
+                }
+            });
         }
     }
 
