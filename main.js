@@ -6,6 +6,14 @@ window.onload = function () {
     var videoSelect = document.querySelector('select#videoSource');
 
     function gotDevices(deviceInfos) {
+        var values = selectors.map(function (select) {
+            return select.value;
+        });
+        selectors.forEach(function (select) {
+            while (select.firstChild) {
+                select.removeChild(select.firstChild);
+            }
+        });
         for (var i = 0; i !== deviceInfos.length; ++i) {
             var deviceInfo = deviceInfos[i];
             var option = document.createElement('option');
