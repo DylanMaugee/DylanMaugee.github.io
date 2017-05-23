@@ -1,29 +1,11 @@
-/*
- *  Copyright (c) 2015 The WebRTC project authors. All Rights Reserved.
- *
- *  Use of this source code is governed by a BSD-style license
- *  that can be found in the LICENSE file in the root of the source
- *  tree.
- */
-
 'use strict';
 window.onload = function () {
     var videoElement = document.querySelector('video');
     var audioInputSelect = document.querySelector('select#audioSource');
     var audioOutputSelect = document.querySelector('select#audioOutput');
     var videoSelect = document.querySelector('select#videoSource');
-    var selectors = [audioInputSelect, audioOutputSelect, videoSelect];
 
     function gotDevices(deviceInfos) {
-        // Handles being called several times to update labels. Preserve values.
-        var values = selectors.map(function (select) {
-            return select.value;
-        });
-        selectors.forEach(function (select) {
-            while (select.firstChild) {
-                select.removeChild(select.firstChild);
-            }
-        });
         for (var i = 0; i !== deviceInfos.length; ++i) {
             var deviceInfo = deviceInfos[i];
             var option = document.createElement('option');
@@ -43,13 +25,6 @@ window.onload = function () {
                 console.log('Some other kind of source/device: ', deviceInfo);
             }
         }
-        selectors.forEach(function (select, selectorIndex) {
-            if (Array.prototype.slice.call(select.childNodes).some(function (n) {
-                return n.value === values[selectorIndex];
-            })) {
-                select.value = values[selectorIndex];
-            }
-        });
     }
 
     navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(handleError);
