@@ -4,6 +4,7 @@ window.onload = function () {
     var audioInputSelect = document.querySelector('select#audioSource');
     var audioOutputSelect = document.querySelector('select#audioOutput');
     var videoSelect = document.querySelector('select#videoSource');
+    var selectors = [audioInputSelect, audioOutputSelect, videoSelect];
 
     function gotDevices(deviceInfos) {
         var values = selectors.map(function (select) {
