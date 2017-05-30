@@ -123,3 +123,14 @@ window.onload = function () {
         console.log('navigator.getUserMedia error: ', error);
     }
 }
+
+function testAudio() {
+    var audioSource = audioInputSelect.value;
+    navigator.mediaDevices.getUserMedia({
+        audio: {
+            deviceId: audioSource ? {
+                exact: audioSource
+            } : undefined
+        }
+    }).then(gotStream).then(gotDevices).catch(handleError);
+}
