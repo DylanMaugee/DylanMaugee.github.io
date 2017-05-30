@@ -33,8 +33,8 @@ window.onload = function () {
             } else {
                 console.log('Some other kind of source/device: ', deviceInfo);
             }
-            selectors.forEach(function(select, selectorIndex) {
-                if (Array.prototype.slice.call(select.childNodes).some(function(n) {
+            selectors.forEach(function (select, selectorIndex) {
+                if (Array.prototype.slice.call(select.childNodes).some(function (n) {
                     return n.value === values[selectorIndex];
                 })) {
                     select.value = values[selectorIndex];
@@ -103,11 +103,15 @@ window.onload = function () {
         then(gotStream).then(gotDevices).catch(handleError);
     }
 
+    function testAudio() {
+        var audioSource = audioInputSelect.value;
+        navigator.mediaDevices.getUserMedia(audio: true).then(gotStream).then(gotDevices).catch(handleError);
+    }
+
     audioInputSelect.onchange = start;
     audioOutputSelect.onchange = changeAudioDestination;
     videoSelect.onchange = start;
 
-    start();
 
     function handleError(error) {
         console.log('navigator.getUserMedia error: ', error);
