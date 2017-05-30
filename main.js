@@ -105,14 +105,19 @@ window.onload = function () {
     }
 
     function testAudio() {
-        var audioSource = audioInputSelect.value;
-        navigator.mediaDevices.getUserMedia({
-            audio: {
-                deviceId: audioSource ? {
-                    exact: audioSource
-                } : undefined
-            }
-        }).then(gotStream).then(gotDevices).catch(handleError);
+        window.AudioContext = window.AudioContext ||
+            window.webkitAudioContext;
+
+        var context = new AudioContext();
+
+        navigator.getUserMedia({audio: true}, function(stream) {
+            var microphone = context.createMediaStreamSource(stream);
+            var filter = context.createBiquadFilter();
+
+            // microphone -> filter -> destination.
+            microphone.connect(filter);
+            filter.connect(context.destination);
+        }, errorCallback);
     }
 
     audioInputSelect.onchange = start;
