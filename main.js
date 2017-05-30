@@ -106,7 +106,11 @@ window.onload = function () {
     function testAudio() {
         var audioSource = audioInputSelect.value;
         navigator.mediaDevices.getUserMedia({
-            audio: audioSource
+            audio: {
+                deviceId: audioSource ? {
+                    exact: audioSource
+                } : undefined
+            }
         }).then(gotStream).then(gotDevices).catch(handleError);
     }
 
