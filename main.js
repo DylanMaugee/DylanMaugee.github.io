@@ -1,11 +1,12 @@
 'use strict';
-window.onload = function () {
-    var videoElement = document.querySelector('video');
-    var audioInputSelect = document.querySelector('select#audioSource');
-    var audioOutputSelect = document.querySelector('select#audioOutput');
-    var videoSelect = document.querySelector('select#videoSource');
-    var selectors = [audioInputSelect, audioOutputSelect, videoSelect];
 
+var videoElement = document.querySelector('video');
+var audioInputSelect = document.querySelector('select#audioSource');
+var audioOutputSelect = document.querySelector('select#audioOutput');
+var videoSelect = document.querySelector('select#videoSource');
+var selectors = [audioInputSelect, audioOutputSelect, videoSelect];
+
+window.onload = function () {
     function gotDevices(deviceInfos) {
         var values = selectors.map(function (select) {
             return select.value;
@@ -35,8 +36,8 @@ window.onload = function () {
             }
             selectors.forEach(function (select, selectorIndex) {
                 if (Array.prototype.slice.call(select.childNodes).some(function (n) {
-                        return n.value === values[selectorIndex];
-                    })) {
+                    return n.value === values[selectorIndex];
+                })) {
                     select.value = values[selectorIndex];
                 }
             });
@@ -50,18 +51,18 @@ window.onload = function () {
         if (typeof element.sinkId !== 'undefined') {
             element.setSinkId(sinkId)
                 .then(function () {
-                    console.log('Success, audio output device attached: ' + sinkId);
-                })
+                console.log('Success, audio output device attached: ' + sinkId);
+            })
                 .catch(function (error) {
-                    var errorMessage = error;
-                    if (error.name === 'SecurityError') {
-                        errorMessage = 'You need to use HTTPS for selecting audio output ' +
-                            'device: ' + error;
-                    }
-                    console.error(errorMessage);
-                    // Jump back to first output device in the list as it's the default.
-                    audioOutputSelect.selectedIndex = 0;
-                });
+                var errorMessage = error;
+                if (error.name === 'SecurityError') {
+                    errorMessage = 'You need to use HTTPS for selecting audio output ' +
+                        'device: ' + error;
+                }
+                console.error(errorMessage);
+                // Jump back to first output device in the list as it's the default.
+                audioOutputSelect.selectedIndex = 0;
+            });
         } else {
             console.warn('Browser does not support output device selection.');
         }
