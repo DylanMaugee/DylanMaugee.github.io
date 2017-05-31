@@ -186,5 +186,6 @@ function stopTest() {
 
 function applyFilter(){
     var selectedFilter = filterSelect.value;
+    videoElement.className = '';
     videoElement.classList.add(selectedFilter);
 }
