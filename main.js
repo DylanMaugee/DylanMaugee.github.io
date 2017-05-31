@@ -5,6 +5,19 @@ var stopCamBtn = document.querySelector('button#stopTestVideoAudio');
 var audioOutputSelect = document.querySelector('select#audioOutput');
 var videoSelect = document.querySelector('select#videoSource');
 var selectors = [audioInputSelect, audioOutputSelect, videoSelect];
+var filters = [
+    'grayscale',
+    'sepia',
+    'blur',
+    'brightness',
+    'contrast',
+    'hue-rotate',
+    'hue-rotate2',
+    'hue-rotate3',
+    'saturate',
+    'invert',
+    'none'
+];
 
 function gotDevices(deviceInfos) {
     var values = selectors.map(function (select) {
@@ -127,14 +140,13 @@ audioInputSelect.onchange = start;
 audioOutputSelect.onchange = changeAudioDestination;
 videoSelect.onchange = start;
 
-
 function handleError(error) {
     console.log('navigator.getUserMedia error: ', error);
 }
 
 function testAudio() {
     var audioSource = audioInputSelect.value;
-    
+
     stopAudioBtn.removeAttribute('hidden');
     navigator.mediaDevices.getUserMedia({
         audio: {
@@ -145,21 +157,21 @@ function testAudio() {
     }).then(gotStream).then(gotDevices).catch(handleError);
 }
 
-function stopAudio(){
+function stopAudio() {
     if (window.stream) {
         window.stream.getTracks().forEach(function (track) {
             track.stop();
         });
     }
-    stopAudioBtn.setAttribute('hidden','true');
+    stopAudioBtn.setAttribute('hidden', 'true');
 }
 
-function stopTest(){
+function stopTest() {
     if (window.stream) {
         window.stream.getTracks().forEach(function (track) {
             track.stop();
         });
     }
-    videoElement.setAttribute('hidden','true');
-    stopCamBtn.setAttribute('hidden','true');
+    videoElement.setAttribute('hidden', 'true');
+    stopCamBtn.setAttribute('hidden', 'true');
 }
