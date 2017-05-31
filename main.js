@@ -148,7 +148,7 @@ function stopAudio(){
             track.stop();
         });
     }
-    stopAudioBtn.setAttribute('type','hidden');
+    stopAudioBtn.setAttribute('hidden','true');
 }
 
 function stopTest(){
