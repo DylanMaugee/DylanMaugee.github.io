@@ -132,7 +132,7 @@ function handleError(error) {
 function testAudio() {
     var audioSource = audioInputSelect.value;
     
-    stopAudioBtn.removeAttribute('type');
+    stopAudioBtn.removeAttribute('hidden');
     navigator.mediaDevices.getUserMedia({
         audio: {
             deviceId: audioSource ? {
