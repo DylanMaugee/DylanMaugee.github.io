@@ -1,7 +1,6 @@
-'use strict';
-
 var videoElement = document.querySelector('video');
 var audioInputSelect = document.querySelector('select#audioSource');
+var stopAudioBtn = document.querySelector('button#stopTestAudio');
 var audioOutputSelect = document.querySelector('select#audioOutput');
 var videoSelect = document.querySelector('select#videoSource');
 var selectors = [audioInputSelect, audioOutputSelect, videoSelect];
@@ -132,6 +131,8 @@ function handleError(error) {
 
 function testAudio() {
     var audioSource = audioInputSelect.value;
+    
+    stopAudioBtn.removeAttribute('type');
     navigator.mediaDevices.getUserMedia({
         audio: {
             deviceId: audioSource ? {
@@ -147,6 +148,7 @@ function stopAudio(){
             track.stop();
         });
     }
+    stopAudioBtn.setAttribute('type','hidden');
 }
 
 function stopTest(){
