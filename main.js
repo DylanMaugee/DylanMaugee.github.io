@@ -84,9 +84,10 @@ function start() {
         window.stream.getTracks().forEach(function (track) {
             track.stop();
         });
-        videoElement.srcObject = null;
+        videoElement.setAttribute('hidden','true');
     }
     stopCamBtn.removeAttribute('hidden');
+    videoElement.removeAttribute('hidden');
     var audioSource = audioInputSelect.value;
     var videoSource = videoSelect.value;
     var constraints = {
