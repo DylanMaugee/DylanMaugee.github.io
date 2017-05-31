@@ -1,6 +1,7 @@
 var videoElement = document.querySelector('video');
 var audioInputSelect = document.querySelector('select#audioSource');
 var stopAudioBtn = document.querySelector('button#stopTestAudio');
+var stopCamBtn = document.querySelector('button#stopTestVideoAudio');
 var audioOutputSelect = document.querySelector('select#audioOutput');
 var videoSelect = document.querySelector('select#videoSource');
 var selectors = [audioInputSelect, audioOutputSelect, videoSelect];
@@ -84,6 +85,7 @@ function start() {
             track.stop();
         });
     }
+    stopCamBtn.removeAttribute('hidden');
     var audioSource = audioInputSelect.value;
     var videoSource = videoSelect.value;
     var constraints = {
@@ -157,4 +159,5 @@ function stopTest(){
             track.stop();
         });
     }
+    stopCamBtn.setAttribute('hidden','true');
 }
