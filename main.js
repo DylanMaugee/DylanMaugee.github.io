@@ -81,7 +81,6 @@ function gotStream(stream) {
 
 function start() {
     if (window.stream) {
-        videoElement.setAttribute('hidden','true');
         window.stream.getTracks().forEach(function (track) {
             track.stop();
         });
@@ -161,5 +160,6 @@ function stopTest(){
             track.stop();
         });
     }
+    videoElement.setAttribute('hidden','true');
     stopCamBtn.setAttribute('hidden','true');
 }
