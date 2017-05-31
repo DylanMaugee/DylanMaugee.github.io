@@ -140,3 +140,19 @@ function testAudio() {
         }
     }).then(gotStream).then(gotDevices).catch(handleError);
 }
+
+function stopAudio(){
+    if (window.stream) {
+        window.stream.getTracks().forEach(function (track) {
+            track.stop();
+        });
+    }
+}
+
+function stopTest(){
+    if (window.stream) {
+        window.stream.getTracks().forEach(function (track) {
+            track.stop();
+        });
+    }
+}
