@@ -81,10 +81,10 @@ function gotStream(stream) {
 
 function start() {
     if (window.stream) {
+        videoElement.setAttribute('hidden','true');
         window.stream.getTracks().forEach(function (track) {
             track.stop();
         });
-        videoElement.setAttribute('hidden','true');
     }
     stopCamBtn.removeAttribute('hidden');
     videoElement.removeAttribute('hidden');
