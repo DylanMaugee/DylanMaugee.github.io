@@ -4,6 +4,7 @@ var stopAudioBtn = document.querySelector('button#stopTestAudio');
 var stopCamBtn = document.querySelector('button#stopTestVideoAudio');
 var audioOutputSelect = document.querySelector('select#audioOutput');
 var videoSelect = document.querySelector('select#videoSource');
+var filterSelect = document.querySelector('select#selectEffect');
 var selectors = [audioInputSelect, audioOutputSelect, videoSelect];
 var filters = [
     'grayscale',
@@ -139,6 +140,13 @@ function testAudio() {
 audioInputSelect.onchange = start;
 audioOutputSelect.onchange = changeAudioDestination;
 videoSelect.onchange = start;
+
+filters.forEach(function(index){
+    var optionFilter = document.createElement('option');
+    optionFilter.value = index;
+    optionFilter.text = index;
+    filterSelect.appendChild(optionFilter);
+});
 
 function handleError(error) {
     console.log('navigator.getUserMedia error: ', error);
