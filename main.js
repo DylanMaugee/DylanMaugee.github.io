@@ -7,6 +7,7 @@ var videoSelect = document.querySelector('select#videoSource');
 var filterSelect = document.querySelector('select#selectEffect');
 var selectors = [audioInputSelect, audioOutputSelect, videoSelect];
 var filters = [
+    'none',
     'grayscale',
     'sepia',
     'blur',
@@ -16,8 +17,7 @@ var filters = [
     'hue-rotate2',
     'hue-rotate3',
     'saturate',
-    'invert',
-    'none'
+    'invert'
 ];
 
 function gotDevices(deviceInfos) {
@@ -182,4 +182,9 @@ function stopTest() {
     }
     videoElement.setAttribute('hidden', 'true');
     stopCamBtn.setAttribute('hidden', 'true');
+}
+
+function applyFilter(){
+    var selectedFilter = filterSelect.value;
+    videoElement.className = selectedFilter;
 }
