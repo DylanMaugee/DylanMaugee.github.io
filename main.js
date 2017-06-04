@@ -133,7 +133,7 @@ function start() {
     }
 }
 
-audioInputSelect.onchange = start;
+audioInputSelect.onchange = testAudio;
 audioOutputSelect.onchange = changeAudioDestination;
 videoSelect.onchange = start;
 
