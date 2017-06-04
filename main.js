@@ -197,4 +197,7 @@ function applyFilter() {
     videoElement.classList.add(selectedFilter);
 }
 
+//Apply the settings on the cam
+
+
 /*********************** END Medias Settings ***********************/
