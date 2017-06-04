@@ -7,6 +7,7 @@ var btnTestAudio = document.querySelector('#testAudio');
 var btnTestVideo = document.querySelector('#testAudioVideo');
 var selectors = [audioInputSelect, audioOutputSelect, videoSelect];
 var isTestingAudio = false;
+var isTestingVideo = false;
 var filters = [
     'none',
     'grayscale',
@@ -95,29 +96,39 @@ function gotStream(stream) {
 }
 
 function start() {
-    if (window.stream) {
-        window.stream.getTracks().forEach(function (track) {
-            track.stop();
-        });
-    }
-    stopCamBtn.removeAttribute('hidden');
-    videoElement.removeAttribute('hidden');
-    var audioSource = audioInputSelect.value;
-    var videoSource = videoSelect.value;
-    var constraints = {
-        audio: {
-            deviceId: audioSource ? {
-                exact: audioSource
-            } : undefined
-        },
-        video: {
-            deviceId: videoSource ? {
-                exact: videoSource
-            } : undefined
+    if(!isTestingVideo){
+        if (window.stream) {
+            window.stream.getTracks().forEach(function (track) {
+                track.stop();
+            });
         }
-    };
-    navigator.mediaDevices.getUserMedia(constraints).
-    then(gotStream).then(gotDevices).catch(handleError);
+        videoElement.removeAttribute('hidden');
+        var audioSource = audioInputSelect.value;
+        var videoSource = videoSelect.value;
+        var constraints = {
+            audio: {
+                deviceId: audioSource ? {
+                    exact: audioSource
+                } : undefined
+            },
+            video: {
+                deviceId: videoSource ? {
+                    exact: videoSource
+                } : undefined
+            }
+        };
+        navigator.mediaDevices.getUserMedia(constraints).
+        then(gotStream).then(gotDevices).catch(handleError);
+        btnTestVideo.innerHTML = "Stop camera test"
+    }else{
+        if (window.stream) {
+            window.stream.getTracks().forEach(function (track) {
+                track.stop();
+            });
+        }
+        videoElement.setAttribute('hidden', 'true');
+        btnTestVideo.innerHTML = "Test camera";
+    }
 }
 
 audioInputSelect.onchange = start;
