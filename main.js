@@ -36,7 +36,7 @@ var btnTestVideo = document.querySelector('#testVideoAudio');
 var btnTestOutput = document.querySelector("#testOutput");
 var context = new AudioContext();
 var canvas = document.querySelector("#canvas");
-var canvasContext = canvas.getContext("2");
+var canvasContext = canvas.getContext("2d");
 var javascriptNode;
 
 // Other Vars
