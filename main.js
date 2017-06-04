@@ -126,6 +126,8 @@ function testAudio() {
 
     var context = new AudioContext();
 
+    console.log('test');
+    
     navigator.getUserMedia({
         audio: true
     }, function (stream) {
