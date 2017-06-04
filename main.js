@@ -1,11 +1,12 @@
 var videoElement = document.querySelector('video');
 var audioInputSelect = document.querySelector('select#audioSource');
-var stopAudioBtn = document.querySelector('button#stopTestAudio');
-var stopCamBtn = document.querySelector('button#stopTestVideoAudio');
 var audioOutputSelect = document.querySelector('select#audioOutput');
 var videoSelect = document.querySelector('select#videoSource');
 var filterSelect = document.querySelector('select#selectEffect');
+var btnTestAudio = document.querySelector('#testAudio');
+var btnTestVideo = document.querySelector('#testAudioVideo');
 var selectors = [audioInputSelect, audioOutputSelect, videoSelect];
+var isTestingAudio = false;
 var filters = [
     'none',
     'grayscale',
@@ -153,25 +154,27 @@ function handleError(error) {
 }
 
 function testAudio() {
-    var audioSource = audioInputSelect.value;
+    if(!isTestingAudio){
+        var audioSource = audioInputSelect.value;
 
-    stopAudioBtn.removeAttribute('hidden');
-    navigator.mediaDevices.getUserMedia({
-        audio: {
-            deviceId: audioSource ? {
-                exact: audioSource
-            } : undefined
+        navigator.mediaDevices.getUserMedia({
+            audio: {
+                deviceId: audioSource ? {
+                    exact: audioSource
+                } : undefined
+            }
+        }).then(gotStream).then(gotDevices).catch(handleError);
+        isTestingAudio = true;
+        btnTestAudio.innerHTML = "Stop Test";
+    }else{
+        if (window.stream) {
+            window.stream.getTracks().forEach(function (track) {
+                track.stop();
+            });
         }
-    }).then(gotStream).then(gotDevices).catch(handleError);
-}
-
-function stopAudio() {
-    if (window.stream) {
-        window.stream.getTracks().forEach(function (track) {
-            track.stop();
-        });
+        isTestingAudio = false;
+        btnTestAudio.innerHTML = "Test audio";
     }
-    stopAudioBtn.setAttribute('hidden', 'true');
 }
 
 function stopTest() {
