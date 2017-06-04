@@ -232,6 +232,7 @@ function SoundMeter(context) {
             }
         }
         that.instant = Math.sqrt(sum / input.length);
+        that.instant += 0.1;
     };
 }
 
