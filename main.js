@@ -120,6 +120,7 @@ function start() {
         navigator.mediaDevices.getUserMedia(constraints).
         then(gotStream).then(gotDevices).catch(handleError);
         btnTestVideo.innerHTML = "Stop camera test";
+        isTestingVideo = true;
     } else {
         if (window.stream) {
             window.stream.getTracks().forEach(function (track) {
@@ -128,6 +129,7 @@ function start() {
         }
         videoElement.setAttribute('hidden', 'true');
         btnTestVideo.innerHTML = "Test camera";
+        isTestingVideo = false;
     }
 }
 
