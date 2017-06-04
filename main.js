@@ -96,7 +96,7 @@ function gotStream(stream) {
 }
 
 function start() {
-    if(!isTestingVideo){
+    if (!isTestingVideo) {
         if (window.stream) {
             window.stream.getTracks().forEach(function (track) {
                 track.stop();
@@ -119,8 +119,8 @@ function start() {
         };
         navigator.mediaDevices.getUserMedia(constraints).
         then(gotStream).then(gotDevices).catch(handleError);
-        btnTestVideo.innerHTML = "Stop camera test"
-    }else{
+        btnTestVideo.innerHTML = "Stop camera test";
+    } else {
         if (window.stream) {
             window.stream.getTracks().forEach(function (track) {
                 track.stop();
@@ -135,7 +135,7 @@ audioInputSelect.onchange = start;
 audioOutputSelect.onchange = changeAudioDestination;
 videoSelect.onchange = start;
 
-filters.forEach(function(index){
+filters.forEach(function (index) {
     var optionFilter = document.createElement('option');
     optionFilter.value = index;
     optionFilter.text = index;
@@ -147,7 +147,7 @@ function handleError(error) {
 }
 
 function testAudio() {
-    if(!isTestingAudio){
+    if (!isTestingAudio) {
         var audioSource = audioInputSelect.value;
 
         navigator.mediaDevices.getUserMedia({
@@ -159,7 +159,7 @@ function testAudio() {
         }).then(gotStream).then(gotDevices).catch(handleError);
         isTestingAudio = true;
         btnTestAudio.innerHTML = "Stop Test";
-    }else{
+    } else {
         if (window.stream) {
             window.stream.getTracks().forEach(function (track) {
                 track.stop();
@@ -180,7 +180,7 @@ function stopTest() {
     stopCamBtn.setAttribute('hidden', 'true');
 }
 
-function applyFilter(){
+function applyFilter() {
     var selectedFilter = filterSelect.value;
     videoElement.className = '';
     videoElement.classList.add(selectedFilter);
