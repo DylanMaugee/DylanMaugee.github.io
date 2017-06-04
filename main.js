@@ -201,6 +201,8 @@ function playSound() {
     var sound = new Audio("outputSound.wav");
     sound.play();
     sound.currentTime = 0;
+    var audioDestination = audioOutputSelect.value;
+    attachSinkId(videoElement, audioDestination);
 }
 
 /*********************** END Medias Settings ***********************/
