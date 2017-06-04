@@ -27,7 +27,15 @@ var filterSelect = document.querySelector('select#selectEffect');
 var btnTestAudio = document.querySelector('#testAudio');
 var btnTestVideo = document.querySelector('#testVideoAudio');
 var btnTestOutput = document.querySelector("#testOutput");
-var audioContext = new AudioContext();
+
+var instantMeter = document.querySelector('meter');
+var instantValueDisplay = instantMeter.value;
+try {
+    window.AudioContext = window.AudioContext || window.webkitAudioContext;
+    window.audioContext = new AudioContext();
+} catch (e) {
+    alert('Web Audio API not supported.');
+}
 
 // Other Vars
 var selectors = [audioInputSelect, audioOutputSelect, videoSelect];
@@ -108,6 +116,21 @@ function gotStream(stream) {
     window.stream = stream; // make stream available to console
     videoElement.srcObject = stream;
     // Refresh button list in case labels have become available
+
+    if (isTestingAudio) {
+        var soundMeter = window.soundMeter = new SoundMeter(window.audioContext);
+        soundMeter.connectToSource(stream, function (e) {
+            if (e) {
+                alert(e);
+                return;
+            }
+            setInterval(function () {
+                instantMeter.value = instantValueDisplay.innerText =
+                    soundMeter.instant.toFixed(2);
+            }, 200);
+        });
+    }
+
     return navigator.mediaDevices.enumerateDevices();
 }
 
@@ -191,32 +214,48 @@ function testAudio() {
     }
 }
 
-var mic;
 
-function setup() {
-  createCanvas(710, 200);
-
-  // Create an Audio input
-  mic = new p5.AudioIn();
-
-  // start the Audio Input.
-  // By default, it does not .connect() (to the computer speakers)
-  mic.start();
+function SoundMeter(context) {
+    this.context = context;
+    this.instant = 0.0;
+    this.script = context.createScriptProcessor(2048, 1, 1);
+    var that = this;
+    this.script.onaudioprocess = function (event) {
+        var input = event.inputBuffer.getChannelData(0);
+        var i;
+        var sum = 0.0;
+        var clipcount = 0;
+        for (i = 0; i < input.length; ++i) {
+            sum += input[i] * input[i];
+            if (Math.abs(input[i]) > 0.99) {
+                clipcount += 1;
+            }
+        }
+        that.instant = Math.sqrt(sum / input.length);
+    };
 }
 
-function draw() {
-  background(200);
+SoundMeter.prototype.connectToSource = function (stream, callback) {
+    console.log('SoundMeter connecting');
+    try {
+        this.mic = this.context.createMediaStreamSource(stream);
+        this.mic.connect(this.script);
+        // necessary to make sample run, but should not be.
+        this.script.connect(this.context.destination);
+        if (typeof callback !== 'undefined') {
+            callback(null);
+        }
+    } catch (e) {
+        console.error(e);
+        if (typeof callback !== 'undefined') {
+            callback(e);
+        }
+    }
+};
+SoundMeter.prototype.stop = function () {
+    this.mic.disconnect();
+    this.script.disconnect();
+};
 
-  // Get the overall volume (between 0 and 1.0)
-  var vol = mic.getLevel();
-  fill(127);
-  stroke(0);
-
-  // Draw an ellipse with height based on volume
-  var h = map(vol, 0, 1, height, 0);
-  ellipse(width/2, h - 25, 50, 50);
-}
-
-setup();
 
 /*********************** END Medias Settings ***********************/
