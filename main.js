@@ -15,13 +15,6 @@ var isEdge = !isIE && !!window.StyleMedia; // Edge 20+
 var isChrome = !!window.chrome && !!window.chrome.webstore; // Chrome 1+
 /*********************** END Get User Browser ***********************/
 
-if (!window.AudioContext) {
-    if (!window.webkitAudioContext) {
-        alert('no audiocontext found');
-    }
-    window.AudioContext = window.webkitAudioContext;
-}
-
 
 /*********************** START Medias Settings ***********************/
 
@@ -34,10 +27,6 @@ var filterSelect = document.querySelector('select#selectEffect');
 var btnTestAudio = document.querySelector('#testAudio');
 var btnTestVideo = document.querySelector('#testVideoAudio');
 var btnTestOutput = document.querySelector("#testOutput");
-var context = new AudioContext();
-var canvas = document.querySelector("#canvas");
-var canvasContext = canvas.getContext("2d");
-var javascriptNode;
 
 // Other Vars
 var selectors = [audioInputSelect, audioOutputSelect, videoSelect];
@@ -201,88 +190,4 @@ function testAudio() {
     }
 }
 
-// Apply a filter to the webcam
-function applyFilter() {
-    var selectedFilter = filterSelect.value;
-    videoElement.className = '';
-    videoElement.classList.add(selectedFilter);
-}
-
-
-
-function setupAudioNodes() {
-
-    // setup a javascript node
-    javascriptNode = context.createScriptProcessor(2048, 1, 1);
-    // connect to destination, else it isn't called
-    javascriptNode.connect(context.destination);
-
-    // setup a analyzer
-    analyser = context.createAnalyser();
-    analyser.smoothingTimeConstant = 0.3;
-    analyser.fftSize = 1024;
-
-    analyser2 = context.createAnalyser();
-    analyser2.smoothingTimeConstant = 0.0;
-    analyser2.fftSize = 1024;
-
-    // create a buffer source node
-    sourceNode = context.createBufferSource();
-    splitter = context.createChannelSplitter();
-
-    // connect the source to the analyser and the splitter
-    sourceNode.connect(splitter);
-
-    // connect one of the outputs from the splitter to
-    // the analyser
-    splitter.connect(analyser, 0, 0);
-    splitter.connect(analyser2, 1, 0);
-
-    // we use the javascript node to draw at a
-    // specific interval.
-    analyser.connect(javascriptNode);
-
-    // and connect to destination
-    sourceNode.connect(context.destination);
-}
-
-javascriptNode.onaudioprocess = function () {
-
-    // get the average, bincount is fftsize / 2
-    var array = new Uint8Array(analyser.frequencyBinCount);
-    analyser.getByteFrequencyData(array);
-    var average = getAverageVolume(array)
-
-    // clear the current state
-    ctx.clearRect(0, 0, 60, 130);
-
-    // set the fill style
-    ctx.fillStyle = gradient;
-
-    // create the meters
-    ctx.fillRect(0, 130 - average, 25, 130);
-}
-
-function getAverageVolume(array) {
-    var values = 0;
-    var average;
-
-    var length = array.length;
-
-    // get all the frequency amplitudes
-    for (var i = 0; i < length; i++) {
-        values += array[i];
-    }
-
-    average = values / length;
-    return average;
-}
-
-var gradient = ctx.createLinearGradient(0, 0, 0, 130);
-gradient.addColorStop(1, '#000000');
-gradient.addColorStop(0.75, '#ff0000');
-gradient.addColorStop(0.25, '#ffff00');
-gradient.addColorStop(0, '#ffffff');
-// load the sound
-setupAudioNodes();
 /*********************** END Medias Settings ***********************/
