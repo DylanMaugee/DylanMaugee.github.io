@@ -26,6 +26,7 @@ var videoSelect = document.querySelector('select#videoSource');
 var filterSelect = document.querySelector('select#selectEffect');
 var btnTestAudio = document.querySelector('#testAudio');
 var btnTestVideo = document.querySelector('#testVideoAudio');
+var btnTestOutput = document.querySelector("#testOutput");
 
 // Other Vars
 var selectors = [audioInputSelect, audioOutputSelect, videoSelect];
@@ -199,7 +200,7 @@ function applyFilter() {
 // Send a notification sound to test output
 function playSound() {
     var audioDestination = audioOutputSelect.value;
-    attachSinkId(videoElement, audioDestination);
+    attachSinkId(btnTestOutput, audioDestination);
     var sound = new Audio("outputSound.wav");
     sound.play();
     sound.currentTime = 0;
