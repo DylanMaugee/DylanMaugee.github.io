@@ -198,11 +198,11 @@ function applyFilter() {
 
 // Send a notification sound to test output
 function playSound() {
+    var audioDestination = audioOutputSelect.value;
+    attachSinkId(videoElement, audioDestination);
     var sound = new Audio("outputSound.wav");
     sound.play();
     sound.currentTime = 0;
-    var audioDestination = audioOutputSelect.value;
-    attachSinkId(videoElement, audioDestination);
 }
 
 /*********************** END Medias Settings ***********************/
