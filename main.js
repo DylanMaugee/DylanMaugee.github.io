@@ -1,3 +1,24 @@
+/*********************** START Get User Browser ***********************/
+
+var isOpera = (!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0; // Opera 8.0+
+
+var isFirefox = typeof InstallTrigger !== 'undefined'; // Firefox 1.0+
+
+var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) {
+    return p.toString() === "[object SafariRemoteNotification]";
+})(!window['safari'] || safari.pushNotification); // Safari 3.0+
+
+var isIE = /*@cc_on!@*/ false || !!document.documentMode; // Internet Explorer 6-11
+
+var isEdge = !isIE && !!window.StyleMedia; // Edge 20+
+
+var isChrome = !!window.chrome && !!window.chrome.webstore; // Chrome 1+
+/*********************** END Get User Browser ***********************/
+
+
+/*********************** START Medias Settings ***********************/
+
+// DOM Elements
 var videoElement = document.querySelector('video');
 var audioInputSelect = document.querySelector('select#audioSource');
 var audioOutputSelect = document.querySelector('select#audioOutput');
@@ -5,23 +26,15 @@ var videoSelect = document.querySelector('select#videoSource');
 var filterSelect = document.querySelector('select#selectEffect');
 var btnTestAudio = document.querySelector('#testAudio');
 var btnTestVideo = document.querySelector('#testVideoAudio');
+
+// Other Vars
 var selectors = [audioInputSelect, audioOutputSelect, videoSelect];
 var isTestingAudio = false;
 var isTestingVideo = false;
-var filters = [
-    'none',
-    'grayscale',
-    'sepia',
-    'blur',
-    'brightness',
-    'contrast',
-    'hue-rotate',
-    'hue-rotate2',
-    'hue-rotate3',
-    'saturate',
-    'invert'
-];
+var filters = ['none', 'grayscale', 'sepia', 'blur', 'brightness', 'contrast', 'hue-rotate', 'hue-rotate2', 'hue-rotate3', 'saturate', 'invert'];
 
+
+// Get all devices (cam + audio + output) and store their infos in <select>
 function gotDevices(deviceInfos) {
     var values = selectors.map(function (select) {
         return select.value;
@@ -51,8 +64,8 @@ function gotDevices(deviceInfos) {
         }
         selectors.forEach(function (select, selectorIndex) {
             if (Array.prototype.slice.call(select.childNodes).some(function (n) {
-                return n.value === values[selectorIndex];
-            })) {
+                    return n.value === values[selectorIndex];
+                })) {
                 select.value = values[selectorIndex];
             }
         });
@@ -66,18 +79,18 @@ function attachSinkId(element, sinkId) {
     if (typeof element.sinkId !== 'undefined') {
         element.setSinkId(sinkId)
             .then(function () {
-            console.log('Success, audio output device attached: ' + sinkId);
-        })
+                console.log('Success, audio output device attached: ' + sinkId);
+            })
             .catch(function (error) {
-            var errorMessage = error;
-            if (error.name === 'SecurityError') {
-                errorMessage = 'You need to use HTTPS for selecting audio output ' +
-                    'device: ' + error;
-            }
-            console.error(errorMessage);
-            // Jump back to first output device in the list as it's the default.
-            audioOutputSelect.selectedIndex = 0;
-        });
+                var errorMessage = error;
+                if (error.name === 'SecurityError') {
+                    errorMessage = 'You need to use HTTPS for selecting audio output ' +
+                        'device: ' + error;
+                }
+                console.error(errorMessage);
+                // Jump back to first output device in the list as it's the default.
+                audioOutputSelect.selectedIndex = 0;
+            });
     } else {
         console.warn('Browser does not support output device selection.');
     }
@@ -88,6 +101,7 @@ function changeAudioDestination() {
     attachSinkId(videoElement, audioDestination);
 }
 
+// Create the stream object
 function gotStream(stream) {
     window.stream = stream; // make stream available to console
     videoElement.srcObject = stream;
@@ -95,6 +109,7 @@ function gotStream(stream) {
     return navigator.mediaDevices.enumerateDevices();
 }
 
+// Start the test cam + audio
 function start() {
     if (!isTestingVideo) {
         if (window.stream) {
@@ -133,10 +148,11 @@ function start() {
     }
 }
 
-audioInputSelect.onchange = testAudio;
+audioInputSelect.onchange = start;
 audioOutputSelect.onchange = changeAudioDestination;
 videoSelect.onchange = start;
 
+// Fill filters <select> with array filter 
 filters.forEach(function (index) {
     var optionFilter = document.createElement('option');
     optionFilter.value = index;
@@ -148,6 +164,7 @@ function handleError(error) {
     console.log('navigator.getUserMedia error: ', error);
 }
 
+// Create constraints for audio testing
 function testAudio() {
     if (!isTestingAudio) {
         var audioSource = audioInputSelect.value;
@@ -172,18 +189,11 @@ function testAudio() {
     }
 }
 
-function stopTest() {
-    if (window.stream) {
-        window.stream.getTracks().forEach(function (track) {
-            track.stop();
-        });
-    }
-    videoElement.setAttribute('hidden', 'true');
-    stopCamBtn.setAttribute('hidden', 'true');
-}
-
+// Apply a filter to the webcam
 function applyFilter() {
     var selectedFilter = filterSelect.value;
     videoElement.className = '';
     videoElement.classList.add(selectedFilter);
 }
+
+/*********************** END Medias Settings ***********************/
