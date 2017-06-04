@@ -16,14 +16,14 @@
     <select id="audioSource"></select>
 
     <label for="videoSource">Vidéo: </label>
-    <select id="videoSource" class="defaultFilters"></select>
+    <select id="videoSource"></select>
 
     <label for="audioOutput">Sortie audio: </label>
     <select id="audioOutput"></select>
     
     <label for="selectEffect">Cam filters</label>
     <select id="selectEffect"></select>
-    <button id="filterBtn" onclick="applyFilter()">Apply Filter</button>
+    <button id="filterBtn" onclick="applyFilter()" class="defaultFilters">Apply Filter</button>
 
     <video autoplay="true" id="webcam" hidden="true"></video><br/>
     <input id="brightness" type="range" min="0" max="1" step="0.1" onchange="applyOnCam()"/>
