@@ -198,6 +198,7 @@ function applyFilter() {
 
 // Send a notification sound to test output
 function testOutput() {
+    console.log("play");
     var sound = new Audio("outputSound.wav");
     sound.play();
     sound.currentTime = 0;
