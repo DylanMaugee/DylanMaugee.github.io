@@ -197,13 +197,4 @@ function applyFilter() {
     videoElement.classList.add(selectedFilter);
 }
 
-// Send a notification sound to test output
-function playSound() {
-    var audioDestination = audioOutputSelect.value;
-    attachSinkId(btnTestOutput, audioDestination);
-    var sound = new Audio("outputSound.wav");
-    sound.play();
-    sound.currentTime = 0;
-}
-
 /*********************** END Medias Settings ***********************/
