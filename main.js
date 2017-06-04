@@ -27,7 +27,6 @@ var filterSelect = document.querySelector('select#selectEffect');
 var btnTestAudio = document.querySelector('#testAudio');
 var btnTestVideo = document.querySelector('#testVideoAudio');
 var btnTestOutput = document.querySelector("#testOutput");
-
 var instantMeter = document.querySelector('meter');
 var instantValueDisplay = instantMeter.value;
 try {
@@ -203,6 +202,7 @@ function testAudio() {
         }).then(gotStream).then(gotDevices).catch(handleError);
         isTestingAudio = true;
         btnTestAudio.innerHTML = "Stop Test";
+        instantMeter.removeAttribute("hidden");
     } else {
         if (window.stream) {
             window.stream.getTracks().forEach(function (track) {
@@ -211,6 +211,7 @@ function testAudio() {
         }
         isTestingAudio = false;
         btnTestAudio.innerHTML = "Test audio";
+        instantMeter.setAttribute("hidden", "true");
     }
 }
 
