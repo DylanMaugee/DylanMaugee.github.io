@@ -8,10 +8,11 @@
 </head>
 
 <body>
-   <button id="testAudio" onclick="testAudio()">Test audio</button>
-   
-   <button id="testVideoAudio" onclick="start()">Test camera</button>
-   
+    <button id="testAudio" onclick="testAudio()">Test audio</button>
+    <canvas id="canvas" width="60" height="130" style="display: block;"></canvas>
+
+    <button id="testVideoAudio" onclick="start()">Test camera</button>
+
     <label for="audioSource">Audio: </label>
     <select id="audioSource"></select>
 
@@ -20,7 +21,7 @@
 
     <label for="audioOutput">Sortie audio: </label>
     <select id="audioOutput"></select>
-    
+
     <label for="selectEffect">Cam filters</label>
     <select id="selectEffect"></select>
     <button id="filterBtn" onclick="applyFilter()">Apply Filter</button>
@@ -28,4 +29,5 @@
     <video autoplay="true" id="webcam" hidden="true"></video><br/>
 </body>
 <script src="/main.js"></script>
+
 </html>
