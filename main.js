@@ -64,8 +64,8 @@ function gotDevices(deviceInfos) {
         }
         selectors.forEach(function (select, selectorIndex) {
             if (Array.prototype.slice.call(select.childNodes).some(function (n) {
-                    return n.value === values[selectorIndex];
-                })) {
+                return n.value === values[selectorIndex];
+            })) {
                 select.value = values[selectorIndex];
             }
         });
@@ -79,18 +79,18 @@ function attachSinkId(element, sinkId) {
     if (typeof element.sinkId !== 'undefined') {
         element.setSinkId(sinkId)
             .then(function () {
-                console.log('Success, audio output device attached: ' + sinkId);
-            })
+            console.log('Success, audio output device attached: ' + sinkId);
+        })
             .catch(function (error) {
-                var errorMessage = error;
-                if (error.name === 'SecurityError') {
-                    errorMessage = 'You need to use HTTPS for selecting audio output ' +
-                        'device: ' + error;
-                }
-                console.error(errorMessage);
-                // Jump back to first output device in the list as it's the default.
-                audioOutputSelect.selectedIndex = 0;
-            });
+            var errorMessage = error;
+            if (error.name === 'SecurityError') {
+                errorMessage = 'You need to use HTTPS for selecting audio output ' +
+                    'device: ' + error;
+            }
+            console.error(errorMessage);
+            // Jump back to first output device in the list as it's the default.
+            audioOutputSelect.selectedIndex = 0;
+        });
     } else {
         console.warn('Browser does not support output device selection.');
     }
@@ -194,6 +194,13 @@ function applyFilter() {
     var selectedFilter = filterSelect.value;
     videoElement.className = '';
     videoElement.classList.add(selectedFilter);
+}
+
+// Send a notification sound to test output
+function testOutput() {
+    var sound = new Audio("outputSound.wav");
+    sound.play();
+    sound.currentTime = 0;
 }
 
 /*********************** END Medias Settings ***********************/
