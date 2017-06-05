@@ -44,6 +44,7 @@ var selectors = [audioInputSelect, audioOutputSelect, videoSelect];
 var isTestingAudio = false;
 var isTestingVideo = false;
 
+//If chrome then display output device selection
 if (isChrome) {
     audioOutputSelect.removeAttribute("hidden");
     ouputLabel.removeAttribute("hidden");
