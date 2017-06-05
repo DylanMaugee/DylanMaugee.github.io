@@ -42,7 +42,6 @@ try {
 var selectors = [audioInputSelect, audioOutputSelect, videoSelect];
 var isTestingAudio = false;
 var isTestingVideo = false;
-var filters = ['none', 'grayscale', 'sepia', 'blur', 'brightness', 'contrast', 'hue-rotate', 'hue-rotate2', 'hue-rotate3', 'saturate', 'invert'];
 
 
 // Get all devices (cam + audio + output) and store their infos in <select>
