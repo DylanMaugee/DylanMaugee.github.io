@@ -1,0 +1,8 @@
+Fonctions : 
+- gotDevices() => Récupère les devices dispo sur le navigateur 
+- attachSinkId() => Attache l'id de la sortie audio au stream afin de pouvoir choisir la sortie audio appropriée
+- changeAudioDestination()
+- gotStream()
+- start()
+- handleError()
+- testAudio()

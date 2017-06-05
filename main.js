@@ -22,6 +22,7 @@ var isChrome = !!window.chrome && !!window.chrome.webstore; // Chrome 1+
 var videoElement = document.querySelector('video');
 var audioInputSelect = document.querySelector('select#audioSource');
 var audioOutputSelect = document.querySelector('select#audioOutput');
+var ouputLabel = document.querySelector('label#audioOutput');
 var videoSelect = document.querySelector('select#videoSource');
 var filterSelect = document.querySelector('select#selectEffect');
 var btnTestAudio = document.querySelector('#testAudio');
@@ -43,6 +44,10 @@ var selectors = [audioInputSelect, audioOutputSelect, videoSelect];
 var isTestingAudio = false;
 var isTestingVideo = false;
 
+if (isChrome) {
+    audioOutputSelect.removeAttribute("hidden");
+    ouputLabel.removeAttribute("hidden");
+}
 
 // Get all devices (cam + audio + output) and store their infos in <select>
 function gotDevices(deviceInfos) {
@@ -207,8 +212,10 @@ function testAudio() {
         instantMeter.setAttribute("hidden", "true");
     }
 }
+/*********************** END Medias Settings ***********************/
 
-// Setup the VolumeMeter
+
+/*********************** START Setup Sound Meter ***********************/
 function SoundMeter(context) {
     this.context = context;
     this.instant = 0.0;
@@ -253,4 +260,4 @@ SoundMeter.prototype.stop = function () {
     this.script.disconnect();
 };
 
-/*********************** END Medias Settings ***********************/
+/*********************** END Setup Sound Meter ***********************/
