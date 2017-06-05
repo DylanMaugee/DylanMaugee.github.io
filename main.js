@@ -27,6 +27,8 @@ var filterSelect = document.querySelector('select#selectEffect');
 var btnTestAudio = document.querySelector('#testAudio');
 var btnTestVideo = document.querySelector('#testVideoAudio');
 var btnTestOutput = document.querySelector("#testOutput");
+
+// Vars used for the Volume Meter 
 var instantMeter = document.querySelector('meter');
 var instantValueDisplay = instantMeter.value;
 try {
@@ -81,6 +83,7 @@ function gotDevices(deviceInfos) {
     }
 }
 
+// Call to get devices 
 navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(handleError);
 
 // Attach audio output device to video element using device/sink ID.
@@ -114,8 +117,6 @@ function changeAudioDestination() {
 function gotStream(stream) {
     window.stream = stream; // make stream available to console
     videoElement.srcObject = stream;
-    // Refresh button list in case labels have become available
-
     if (isTestingAudio) {
         var soundMeter = window.soundMeter = new SoundMeter(window.audioContext);
         soundMeter.connectToSource(stream, function (e) {
@@ -172,17 +173,10 @@ function start() {
     }
 }
 
+// OnChange Events 
 audioInputSelect.onchange = start;
 audioOutputSelect.onchange = changeAudioDestination;
 videoSelect.onchange = start;
-
-// Fill filters <select> with array filter 
-filters.forEach(function (index) {
-    var optionFilter = document.createElement('option');
-    optionFilter.value = index;
-    optionFilter.text = index;
-    filterSelect.appendChild(optionFilter);
-});
 
 function handleError(error) {
     console.log('navigator.getUserMedia error: ', error);
@@ -215,7 +209,7 @@ function testAudio() {
     }
 }
 
-
+// Setup the VolumeMeter
 function SoundMeter(context) {
     this.context = context;
     this.instant = 0.0;
@@ -233,6 +227,7 @@ function SoundMeter(context) {
             }
         }
         that.instant = Math.sqrt(sum / input.length);
+        // Tweak used because the bar wasn't big enough
         that.instant += 0.1;
     };
 }
@@ -242,7 +237,6 @@ SoundMeter.prototype.connectToSource = function (stream, callback) {
     try {
         this.mic = this.context.createMediaStreamSource(stream);
         this.mic.connect(this.script);
-        // necessary to make sample run, but should not be.
         this.script.connect(this.context.destination);
         if (typeof callback !== 'undefined') {
             callback(null);
@@ -255,9 +249,9 @@ SoundMeter.prototype.connectToSource = function (stream, callback) {
     }
 };
 SoundMeter.prototype.stop = function () {
+    console.log('SoundMeter disconnecting');
     this.mic.disconnect();
     this.script.disconnect();
 };
-
 
 /*********************** END Medias Settings ***********************/
