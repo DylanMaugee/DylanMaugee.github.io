@@ -1,8 +1,8 @@
 Fonctions : 
 - gotDevices() => Récupère les devices dispo sur le navigateur 
 - attachSinkId() => Attache l'id de la sortie audio au stream afin de pouvoir choisir la sortie audio appropriée
-- changeAudioDestination()
-- gotStream()
-- start()
+- changeAudioDestination() 
+- gotStream() => Rends dispo le  stream && si test audio créé le volume meter
+- start() => Créé les contraintes pour l'audio/vidéo et créé le stream
 - handleError()
-- testAudio()
+- testAudio() => Créé le stream audio
