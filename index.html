@@ -21,6 +21,10 @@
 
     <label for="audioOutput" id="outputLabel" hidden="true">Sortie audio: </label>
     <select id="audioOutput" hidden="true"></select>
+    
+    <label for="selectEffect">Cam filters</label>
+    <select id="selectEffect"></select>
+    <button id="filterBtn" onclick="applyFilter()">Apply Filter</button>
 
     <video autoplay="true" id="webcam" hidden="true"></video><br/>
 </body>
