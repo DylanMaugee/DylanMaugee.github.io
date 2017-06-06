@@ -43,6 +43,7 @@ try {
 var selectors = [audioInputSelect, audioOutputSelect, videoSelect];
 var isTestingAudio = false;
 var isTestingVideo = false;
+var filters = ['none', 'grayscale', 'sepia', 'blur', 'brightness', 'contrast', 'hue-rotate', 'hue-rotate2', 'hue-rotate3', 'saturate', 'invert'];
 
 //If chrome then display output device selection
 if (isChrome) {
@@ -186,6 +187,20 @@ videoSelect.onchange = start;
 function handleError(error) {
     console.log('navigator.getUserMedia error: ', error);
 }
+
+// Fill filters <select> with array filter 
+
+filters.forEach(function (index) {
+
+    var optionFilter = document.createElement('option');
+
+    optionFilter.value = index;
+
+    optionFilter.text = index;
+
+    filterSelect.appendChild(optionFilter);
+
+});
 
 // Create constraints for audio testing
 function testAudio() {
