@@ -188,8 +188,14 @@ function handleError(error) {
     console.log('navigator.getUserMedia error: ', error);
 }
 
-// Fill filters <select> with array filter 
+// Apply a filter to the webcam
+function applyFilter() {
+    var selectedFilter = filterSelect.value;
+    videoElement.className = '';
+    videoElement.classList.add(selectedFilter);
+}
 
+// Fill filters <select> with array filter 
 filters.forEach(function (index) {
 
     var optionFilter = document.createElement('option');
